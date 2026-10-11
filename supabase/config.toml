@@ -1,0 +1,32 @@
+project_id = "your-project-id"
+
+[db]
+major_version = 15
+
+[auth]
+enabled = true
+email_confirm = true
+phone_confirm = false
+rate_limit = 100
+
+[api]
+enabled = true
+port = 54321
+
+[studio]
+enabled = true
+port = 54323
+
+[functions]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+buckets = ["resumes", "recordings", "avatars"]
+
+[realtime]
+enabled = true
+
+[edge_runtime]
+enabled = true

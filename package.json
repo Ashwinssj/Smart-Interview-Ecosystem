@@ -1,0 +1,31 @@
+{
+  "name": "smart-interview-ecosystem",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "dev:web": "turbo run dev --filter=web",
+    "dev:ai": "turbo run dev --filter=ai-services",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "db:generate": "cd packages/supabase && npx supabase gen types typescript --local > types.ts",
+    "db:migrate": "cd packages/supabase && npx supabase migration up",
+    "db:reset": "cd packages/supabase && npx supabase db reset",
+    "db:studio": "cd packages/supabase && npx supabase studio",
+    "test": "turbo run test"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0",
+    "typescript": "^5.4.0",
+    "@types/node": "^20.12.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.2.0"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

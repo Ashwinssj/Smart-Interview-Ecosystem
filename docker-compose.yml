@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  # AI Services (FastAPI)
+  ai-services:
+    build:
+      context: ./apps/ai-services
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY}
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}
+      - HEYGEN_API_KEY=${HEYGEN_API_KEY}
+      - HEYGEN_AVATAR_ID=${HEYGEN_AVATAR_ID}
+      - HEYGEN_VOICE_ID=${HEYGEN_VOICE_ID}
+      - ENVIRONMENT=development
+      - LOG_LEVEL=DEBUG
+    volumes:
+      - ./apps/ai-services:/app
+      - /app/__pycache__
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend (Next.js) - for local development without Supabase CLI
+  web:
+    build:
+      context: ./apps/web
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    environment:
+      - NEXT_PUBLIC_SUPABASE_URL=${NEXT_PUBLIC_SUPABASE_URL}
+      - NEXT_PUBLIC_SUPABASE_ANON_KEY=${NEXT_PUBLIC_SUPABASE_ANON_KEY}
+      - NEXT_PUBLIC_HEYGEN_AVATAR_ID=${HEYGEN_AVATAR_ID}
+    volumes:
+      - ./apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    restart: unless-stopped
+    command: npm run dev
+
+networks:
+  default:
+    name: smart-interview-network
