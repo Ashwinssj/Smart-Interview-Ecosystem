@@ -2,6 +2,12 @@ import { createServerClient, type CookieOptions } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
 
 export async function middleware(request: NextRequest) {
+  // Debug: log env vars (remove in production)
+  console.log('Middleware env check:', {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL ? 'SET' : 'MISSING',
+    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'MISSING',
+  });
+
   let response = NextResponse.next({
     request: { headers: request.headers },
   });

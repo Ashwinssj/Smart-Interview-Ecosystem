@@ -25,6 +25,7 @@
     "eslint": "^8.57.0",
     "prettier": "^3.2.0"
   },
+  "packageManager": "npm@11.19.0",
   "engines": {
     "node": ">=20.0.0"
   }
